@@ -19,7 +19,7 @@ assignees: ''
 
 <!---
 核對:
-* 確認欲申請的電子郵件未在白名單內列出
+* 確認欲申請的電子郵件未在白名單內列出，白名單位於 https://github.com/SCAICT/google-totp/blob/main/app/config.ts#L9
 * 資料填寫完整
 --->
 
