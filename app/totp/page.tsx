@@ -50,6 +50,8 @@ export default function Page() {
           setAuthStatus([false, res.status]);
       }
     });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function updateCountdown() {
@@ -65,8 +67,8 @@ export default function Page() {
 
     return <div className="flex flex-col items-center justify-between">
       <div className="flex flex-row items-center justify-between">
-        {totpCode.split("").map((code) => {
-          return <div className="lg:p-2 md:p-2 p-1">
+        {totpCode.split("").map((code, index) => {
+          return <div key={index} className="lg:p-2 md:p-2 p-1">
             <div className="text-center font-mono lg:text-5xl md:text-4xl text-2xl border-2 border-gray-600/75 rounded-md lg:px-4 md:px-4 px-3 lg:py-3 md:py-3 py-2">
               {code}
             </div>
