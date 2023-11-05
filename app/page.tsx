@@ -39,6 +39,7 @@ export default function Page() {
         <div className="font-mono font-medium lg:text-4xl md:text-2xl text-lg text-center py-10">
           SCAICT Google TOTP Authentication
         </div>
+        
         <button onClick={googleLogin} className="text-gray-950 text-center font-mono font-semibold lg:text-xl md:text-lg text-md rounded-lg border-gray-950/75 border-2 lg:px-5 lg:py-4 md:px-4 px-2 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:text-white ease-in-out duration-300 transition-all">
           Sign in with Google
         </button>

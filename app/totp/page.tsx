@@ -6,8 +6,10 @@ import { authenticator } from 'otplib';
 
 export default function Page() {
   const [authStatus, setAuthStatus] = useState<[boolean | null, Number]>([null, 0]);
+
   const [totpSecret, setTotpSecret] = useState<string>("");
   const [totpCode, setTotpCode] = useState<string>("");
+
   const [refreshIn, setRefreshIn] = useState<Number>(0);
 
   const router = useRouter();
@@ -35,19 +37,22 @@ export default function Page() {
       switch (res.status) {
         case 401:
           setAuthStatus([false, res.status]);
+
           break;
         case 200:
           setAuthStatus([true, res.status]);
+
           res.json().then(
             (data) => {
               setTotpSecret(data.secret);
               setTotpCode(authenticator.generate(totpSecret));
 
               updateCountdown();
-              
+
               setInterval(updateCountdown, 1000);
             }
           );
+
           break;
         default:
           setAuthStatus([false, res.status]);
@@ -78,9 +83,11 @@ export default function Page() {
           </div>
         })}
       </div>
+
       <div className="pb-12 pt-1 font-mono lg:text-lg md:text-lg text-sm">
         Refresh in {refreshIn.toString()} seconds
       </div>
+      
       <button onClick={() => navigator.clipboard.writeText(totpCode)} className="text-gray-950 text-center font-mono font-semibold lg:text-lg md:text-md text-md rounded-lg border-gray-950/75 border-2 lg:px-4 md:px-4 px-3 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:text-white ease-in-out duration-300 transition-all">
         Copy to Clipboard
       </button>
@@ -92,15 +99,19 @@ export default function Page() {
       <div className="text-center text-4xl py-4 font-mono font-semibold">
         {msg}
       </div>
+
       <div className="text-center text-xl font-mono pb-20">
         {desc}
       </div>
+
       <button onClick={() => router.replace('/')} className="text-gray-950 text-center font-mono font-semibold lg:text-lg md:text-md text-md rounded-lg border-gray-950/75 border-2 lg:px-4 md:px-4 px-3 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:text-white ease-in-out duration-300 transition-all">
         Back to Login
       </button>
+
       <div className="text-center text-md font-mono py-2">
         OR
       </div>
+
       <a href="https://github.com/SCAICT/google-totp/issues/new" className="text-gray-950 text-center font-mono font-semibold lg:text-lg md:text-md text-md rounded-lg border-gray-950/75 border-2 lg:px-4 md:px-4 px-3 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:text-white ease-in-out duration-300 transition-all">
         Create an Issue
       </a>
@@ -128,5 +139,5 @@ export default function Page() {
         <ShowStatus/>
       </div>
     </main>
-  )
+  );
 }
