@@ -24,10 +24,10 @@ function useInterval(callback: any, delay: any) {
 }
 
 export default function Page() {
-  const [userToken, setUserToken] = useState("");
-  const [authStatus, setAuthStatus] = useState<[boolean | null, Number]>([null, 0]);
+  const [userToken, setUserToken] = useState<string>("");
+  const [authStatus, setAuthStatus] = useState<Number>(0);
   const [totpCode, setTotpCode] = useState<string>("");
-  const [runInterval, setRunInterval] = useState(false);
+  const [runInterval, setRunInterval] = useState<boolean>(false);
   const [refreshIn, setRefreshIn] = useState<Number>(0);
 
   const router = useRouter();
@@ -38,8 +38,8 @@ export default function Page() {
       const params = window.location.hash.substring(1).split("&");
   
       params.forEach(
-        (i) => {
-          let [k, v] = i.split("=");
+        (p) => {
+          let [k, v] = p.split("=");
           userData.set(k, v);
         }
       );
@@ -66,30 +66,15 @@ export default function Page() {
         }
       }
     ).then((res) => {
-      switch (res.status) {
-        case 401:
-          setAuthStatus([false, res.status]);
-
-          setRunInterval(false);
-
-          break;
-        case 200:
-          setAuthStatus([true, res.status]);
-
-          res.json().then(
-            (data) => {
-              setTotpCode(data.code);
-            }
-          );
-
-          break;
-        default:
-          setAuthStatus([false, res.status]);
-
-          setRunInterval(false);
-          
-          break;
+      if (res.status !== 200) {
+        setRunInterval(false);
+      } else {
+        res.json().then(
+          (data) => setTotpCode(data.code)
+        );
       }
+
+      setAuthStatus(res.status);
     });
   }
 
@@ -150,7 +135,7 @@ export default function Page() {
   }
 
   function ShowStatus() {
-    switch (authStatus[1]) {
+    switch (authStatus) {
       case 0:
         return <div className="text-center lg:text-3xl md:text-2xl sm:text-xl py-4 font-mono font-semibold">
           Loading...
