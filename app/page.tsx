@@ -1,11 +1,10 @@
 'use client';
 
 export default function Page() {
-
   async function googleLogin() {
     let authUrl = "https://accounts.google.com/o/oauth2/v2/auth";
     let clientId = "376162470712-ph439pqes52snidcvoluamh36e36j23s.apps.googleusercontent.com";
-    let redirectUri = "http://localhost:3000/totp";
+    let redirectUri = window.location.href + "totp";
 
     let form = document.createElement('form');
     form.setAttribute('method', 'GET');

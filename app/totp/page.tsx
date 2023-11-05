@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { authenticator } from 'otplib';
 
 export default function Page() {
@@ -56,7 +56,9 @@ export default function Page() {
 
   function updateCountdown() {
     let seconds = new Date().getSeconds();
+
     setRefreshIn(30 - seconds % 30);
+
     if (seconds === 0 || seconds === 30) {
       setTotpCode(authenticator.generate(totpSecret));
     }
