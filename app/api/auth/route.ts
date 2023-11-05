@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
         "msg": "Email unauthorized"
       },
       {
-        status: 401
+        status: 403
       }
     );
   }

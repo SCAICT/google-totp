@@ -141,11 +141,13 @@ export default function Page() {
           Loading...
         </div>;
       case 401:
+        return <ErrorMessage msg={"Google OAuth Failed"} desc={"Something went wrong. Please try again."}/>;
+      case 403:
         return <ErrorMessage msg={"Authentication Failed"} desc={"Create an Issue on Github to request permissions."}/>;
       case 200:
         return <TotpCode/>;
       default:
-        return <ErrorMessage msg={"Unknown Error"} desc={"Please try again."}/>;
+        return <ErrorMessage msg={"Unknown Error"} desc={"Please try again or contact the developers."}/>;
     }
   }
 
