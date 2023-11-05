@@ -2,6 +2,7 @@
 
 import { use, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Config } from '../config';
 
 export default function Page() {
   const [authStatus, setAuthStatus] = useState<[boolean | null, Number]>([null, 0]);
@@ -120,7 +121,7 @@ export default function Page() {
         OR
       </div>
 
-      <a href="https://github.com/SCAICT/google-totp/issues/new" className="text-gray-950 text-center font-mono font-semibold lg:text-lg md:text-md text-md rounded-lg border-gray-950/75 border-2 lg:px-4 md:px-4 px-3 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:text-white ease-in-out duration-300 transition-all">
+      <a href={Config.issueUrl} className="text-gray-950 text-center font-mono font-semibold lg:text-lg md:text-md text-md rounded-lg border-gray-950/75 border-2 lg:px-4 md:px-4 px-3 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:text-white ease-in-out duration-300 transition-all">
         Create an Issue
       </a>
     </div>;

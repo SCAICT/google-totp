@@ -3,7 +3,7 @@ export const Config = {
   clientId: "376162470712-ph439pqes52snidcvoluamh36e36j23s.apps.googleusercontent.com",
   redirectLocation: "totp",
 
-  issueUrl: ""
+  issueUrl: "https://github.com/SCAICT/google-totp/issues/new/choose"
 };
 
 export const AllowedEmails = [
