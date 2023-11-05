@@ -25,34 +25,39 @@ function useInterval(callback: any, delay: any) {
 }
 
 export default function Page() {
+  const [userToken, setUserToken] = useState("");
   const [authStatus, setAuthStatus] = useState<[boolean | null, Number]>([null, 0]);
   const [totpCode, setTotpCode] = useState<string>("");
-  const [runInterval, setRunInterval] = useState(true);
+  const [runInterval, setRunInterval] = useState(false);
   const [refreshIn, setRefreshIn] = useState<Number>(0);
 
   const router = useRouter();
 
+  useEffect(
+    () => {
+      const userData = new Map();
+      const params = window.location.hash.substring(1).split("&");
+  
+      params.forEach(
+        (i) => {
+          let [k, v] = i.split("=");
+          userData.set(k, v);
+        }
+      );
+      
+      setUserToken(userData.get("access_token"));
+
+      setRunInterval(true);
+    },
+    []
+  );
+
   useInterval(
     () => {
-      const userToken = parseUserToken();
       updateCountdown(userToken);
     },
     runInterval ? 1000 : null
   );
-
-  function parseUserToken(): string {
-    const userData = new Map();
-    const params = window.location.hash.substring(1).split("&");
-
-    params.forEach(
-      (i) => {
-        let [k, v] = i.split("=");
-        userData.set(k, v);
-      }
-    );
-    
-    return userData.get("access_token");
-  }
 
   function updateCode(userToken: string) {
     fetch(
