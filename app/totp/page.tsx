@@ -4,31 +4,41 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Config } from '../config';
 
+function useInterval(callback: any, delay: any) {
+  const savedCallback = useRef();
+
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      // @ts-ignore: Unreachable code error
+      savedCallback.current();
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+}
+
 export default function Page() {
   const [authStatus, setAuthStatus] = useState<[boolean | null, Number]>([null, 0]);
   const [totpCode, setTotpCode] = useState<string>("");
-  const [updateInterval, setUpdateInterval] = useState<NodeJS.Timeout>();
+  const [runInterval, setRunInterval] = useState(true);
   const [refreshIn, setRefreshIn] = useState<Number>(0);
 
   const router = useRouter();
 
-  useEffect(() => {
-    const userToken = parseUserToken();
-
-    if (authStatus[0] === null) {
-      let interval = setInterval(
-        updateCountdown,
-        1000,
-        { userToken: userToken }
-      );
-      setUpdateInterval(interval);
-    } else if (authStatus[0] === false) {
-      clearInterval(updateInterval);
-      return;
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authStatus]);
+  useInterval(
+    () => {
+      const userToken = parseUserToken();
+      updateCountdown(userToken);
+    },
+    runInterval ? 1000 : null
+  );
 
   function parseUserToken(): string {
     const userData = new Map();
@@ -58,6 +68,8 @@ export default function Page() {
         case 401:
           setAuthStatus([false, res.status]);
 
+          setRunInterval(false);
+
           break;
         case 200:
           setAuthStatus([true, res.status]);
@@ -72,12 +84,14 @@ export default function Page() {
         default:
           setAuthStatus([false, res.status]);
 
+          setRunInterval(false);
+          
           break;
       }
     });
   }
 
-  function updateCountdown(args) {
+  function updateCountdown(args: any) {
     const seconds = new Date().getSeconds();
 
     setRefreshIn(30 - seconds % 30);
