@@ -28,7 +28,7 @@ We also collect information from you automatically when you use our service. Thi
 * **None**.
 ### 2.3 How we use your information
 We use your information for the following purposes:
-**For whitelist checking**. Our service requires your email in order to check that you have access to the TOTP code for the specified Google account.
+* **For whitelist checking**. Our service requires your email in order to check that you have access to the TOTP code for the specified Google account.
 
 ## 3. Termination
 * <ins>Your right to terminate</ins>. You may stop using the our service at any time for any reason. You can go to Google user settings to delete connection.
