@@ -10,8 +10,8 @@ export async function POST(req: NextRequest) {
   if (accessToken === null || accessToken.length === 0) {
     return NextResponse.json(
       {
-        "msg": "Missing headers",
-        "required": [
+        "msg": "Missing Headers",
+        "headers": [
           "Authorization"
         ]
       },
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
   } else if (res.status !== 200 || !resBody.hasOwnProperty("email")) {
     return NextResponse.json(
       {
-        "msg": "Unknown error"
+        "msg": "Unknown Error"
       },
       {
         status: 500
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
   if (!AllowedEmails.includes(resBody.email)) {
     return NextResponse.json(
       {
-        "msg": "Email unauthorized"
+        "msg": "Email Unauthorized"
       },
       {
         status: 403
