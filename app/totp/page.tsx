@@ -11,21 +11,20 @@ export default function Page() {
   const [refreshIn, setRefreshIn] = useState<Number>(0);
 
   const router = useRouter();
+  const userToken = parseUserToken();
 
   useEffect(() => {
-    const userToken = parseUserToken();
-
-    updateCode(userToken);
-    updateCountdown(userToken);
-
-    if (authStatus[0] === true) {
+    if (authStatus[0] === null) {
       const interval = setInterval(
         updateCountdown,
         1000,
         { userToken: userToken }
       );
       setUpdateInterval(interval);
-    } else {
+      
+      updateCode(userToken);
+      updateCountdown(userToken);
+    } else if (authStatus[0] === false) {
       clearInterval(updateInterval);
       return;
     }
