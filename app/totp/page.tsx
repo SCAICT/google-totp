@@ -1,36 +1,28 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Config } from '../config';
 
 export default function Page() {
   const [authStatus, setAuthStatus] = useState<[boolean | null, Number]>([null, 0]);
   const [totpCode, setTotpCode] = useState<string>("");
-  const [updateInterval, setUpdateInterval] = useState<NodeJS.Timeout>();
   const [refreshIn, setRefreshIn] = useState<Number>(0);
 
   const router = useRouter();
   const userToken = parseUserToken();
 
   useEffect(() => {
-    if (authStatus[0] === null) {
-      const interval = setInterval(
-        updateCountdown,
-        1000,
-        { userToken: userToken }
-      );
-      setUpdateInterval(interval);
-      
-      updateCode(userToken);
-      updateCountdown(userToken);
-    } else if (authStatus[0] === false) {
-      clearInterval(updateInterval);
-      return;
-    }
+    updateCode();
+    updateCountdown();
+
+    setInterval(
+      updateCountdown,
+      1000
+    );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authStatus]);
+  }, []);
 
   function parseUserToken(): string {
     const userData = new Map();
@@ -46,7 +38,7 @@ export default function Page() {
     return userData.get("access_token");
   }
 
-  function updateCode(userToken: string) {
+  function updateCode() {
     fetch(
       "/api/auth",
       {
@@ -77,13 +69,13 @@ export default function Page() {
     });
   }
 
-  function updateCountdown(args: any) {
+  function updateCountdown() {
     const seconds = new Date().getSeconds();
 
     setRefreshIn(30 - seconds % 30);
 
     if (seconds === 0 || seconds === 30) {
-      updateCode(args.userToken);
+      updateCode();
     }
   }
 
