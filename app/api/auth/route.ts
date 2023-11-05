@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const allowedEmails = [
-  "leolee50910@gmail.com"
+  "leolee50910@gmail.com",
+  "elvismao.070512@gmail.com"
 ];
 
 export async function POST(req: NextRequest) {
