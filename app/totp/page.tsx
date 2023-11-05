@@ -14,9 +14,6 @@ export default function Page() {
   const userToken = parseUserToken();
 
   useEffect(() => {
-    updateCode();
-    updateCountdown();
-
     const interval = setInterval(
       updateCountdown,
       1000
@@ -54,7 +51,9 @@ export default function Page() {
       switch (res.status) {
         case 401:
           setAuthStatus([false, res.status]);
+
           clearInterval(updateInterval);
+
           break;
         case 200:
           setAuthStatus([true, res.status]);
@@ -68,7 +67,10 @@ export default function Page() {
           break;
         default:
           setAuthStatus([false, res.status]);
+
           clearInterval(updateInterval);
+          
+          break;
       }
     });
   }
@@ -78,7 +80,7 @@ export default function Page() {
 
     setRefreshIn(30 - seconds % 30);
 
-    if (seconds === 0 || seconds === 30) {
+    if (seconds === 0 || seconds === 30 || totpCode.length !== 6) {
       updateCode();
     }
   }
