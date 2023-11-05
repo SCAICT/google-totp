@@ -7,6 +7,7 @@ import { Config } from '../config';
 export default function Page() {
   const [authStatus, setAuthStatus] = useState<[boolean | null, Number]>([null, 0]);
   const [totpCode, setTotpCode] = useState<string>("");
+  const [updateInterval, setUpdateInterval] = useState<NodeJS.Timeout>();
   const [refreshIn, setRefreshIn] = useState<Number>(0);
 
   const router = useRouter();
@@ -16,10 +17,12 @@ export default function Page() {
     updateCode();
     updateCountdown();
 
-    setInterval(
+    const interval = setInterval(
       updateCountdown,
       1000
     );
+
+    setUpdateInterval(interval);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -51,7 +54,7 @@ export default function Page() {
       switch (res.status) {
         case 401:
           setAuthStatus([false, res.status]);
-
+          clearInterval(updateInterval);
           break;
         case 200:
           setAuthStatus([true, res.status]);
@@ -65,6 +68,7 @@ export default function Page() {
           break;
         default:
           setAuthStatus([false, res.status]);
+          clearInterval(updateInterval);
       }
     });
   }
