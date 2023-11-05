@@ -41,7 +41,10 @@ export default function Page() {
           res.json().then(
             (data) => {
               setTotpSecret(data.secret);
+              setTotpCode(authenticator.generate(totpSecret));
+
               updateCountdown();
+              
               setInterval(updateCountdown, 1000);
             }
           );
