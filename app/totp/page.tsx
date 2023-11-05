@@ -1,27 +1,23 @@
 'use client';
 
-import { use, useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Config } from '../config';
 
 export default function Page() {
   const [authStatus, setAuthStatus] = useState<[boolean | null, Number]>([null, 0]);
   const [totpCode, setTotpCode] = useState<string>("");
-  const [updateInterval, setUpdateInterval] = useState<NodeJS.Timeout>();
+  const updateInterval = useRef<NodeJS.Timeout>();
   const [refreshIn, setRefreshIn] = useState<Number>(0);
 
   const router = useRouter();
   const userToken = parseUserToken();
 
   useEffect(() => {
-    const interval = setInterval(
+    updateInterval.current = setInterval(
       updateCountdown,
       1000
     );
-
-    setUpdateInterval(interval);
-
-    return;
     
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -54,7 +50,8 @@ export default function Page() {
         case 401:
           setAuthStatus([false, res.status]);
 
-          clearInterval(updateInterval);
+          clearInterval(updateInterval.current);
+          updateInterval.current = null;
 
           break;
         case 200:
@@ -70,7 +67,8 @@ export default function Page() {
         default:
           setAuthStatus([false, res.status]);
 
-          clearInterval(updateInterval);
+          clearInterval(updateInterval.current);
+          updateInterval.current = null;
           
           break;
       }
