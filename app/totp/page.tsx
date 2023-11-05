@@ -27,10 +27,11 @@ export default function Page() {
       setUpdateInterval(interval);
     } else {
       clearInterval(updateInterval);
+      return;
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [authStatus]);
 
   function parseUserToken(): string {
     const userData = new Map();
