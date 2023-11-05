@@ -11,14 +11,16 @@ export default function Page() {
   const [refreshIn, setRefreshIn] = useState<Number>(0);
 
   const router = useRouter();
-  const userToken = parseUserToken();
 
   useEffect(() => {
+    const userToken = parseUserToken();
+
     updateInterval.current = setInterval(
       updateCountdown,
-      1000
+      1000,
+      {userToken: userToken}
     );
-    
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -36,7 +38,7 @@ export default function Page() {
     return userData.get("access_token");
   }
 
-  function updateCode() {
+  function updateCode(userToken: string) {
     fetch(
       "/api/auth",
       {
@@ -75,13 +77,13 @@ export default function Page() {
     });
   }
 
-  function updateCountdown() {
+  function updateCountdown(args: any) {
     const seconds = new Date().getSeconds();
 
     setRefreshIn(30 - seconds % 30);
 
     if (seconds === 0 || seconds === 30 || totpCode.length !== 6) {
-      updateCode();
+      updateCode(args.userToken);
     }
   }
 
