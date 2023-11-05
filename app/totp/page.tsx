@@ -1,12 +1,13 @@
 'use client';
 
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Config } from '../config';
 
 export default function Page() {
   const [authStatus, setAuthStatus] = useState<[boolean | null, Number]>([null, 0]);
   const [totpCode, setTotpCode] = useState<string>("");
+  const [updateInterval, setUpdateInterval] = useState<NodeJS.Timeout>();
   const [refreshIn, setRefreshIn] = useState<Number>(0);
 
   const router = useRouter();
@@ -17,11 +18,16 @@ export default function Page() {
     updateCode(userToken);
     updateCountdown(userToken);
 
-    setInterval(
-      updateCountdown,
-      1000,
-      { userToken: userToken }
-    );
+    if (authStatus[0] === true) {
+      const interval = setInterval(
+        updateCountdown,
+        1000,
+        { userToken: userToken }
+      );
+      setUpdateInterval(interval);
+    } else {
+      clearInterval(updateInterval);
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
