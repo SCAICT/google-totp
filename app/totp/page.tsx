@@ -7,7 +7,7 @@ import { Config } from '../config';
 export default function Page() {
   const [authStatus, setAuthStatus] = useState<[boolean | null, Number]>([null, 0]);
   const [totpCode, setTotpCode] = useState<string>("");
-  const updateInterval = useRef<NodeJS.Timeout>();
+  const [updateInterval, setUpdateInterval] = useState<NodeJS.Timeout>();
   const [refreshIn, setRefreshIn] = useState<Number>(0);
 
   const router = useRouter();
@@ -15,14 +15,20 @@ export default function Page() {
   useEffect(() => {
     const userToken = parseUserToken();
 
-    updateInterval.current = setInterval(
-      updateCountdown,
-      1000,
-      {userToken: userToken}
-    );
+    if (authStatus[0] === null) {
+      let interval = setInterval(
+        updateCountdown,
+        1000,
+        { userToken: userToken }
+      );
+      setUpdateInterval(interval);
+    } else if (authStatus[0] === false) {
+      clearInterval(updateInterval);
+      return;
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [authStatus]);
 
   function parseUserToken(): string {
     const userData = new Map();
@@ -52,9 +58,6 @@ export default function Page() {
         case 401:
           setAuthStatus([false, res.status]);
 
-          clearInterval(updateInterval.current);
-          updateInterval.current = null;
-
           break;
         case 200:
           setAuthStatus([true, res.status]);
@@ -69,15 +72,12 @@ export default function Page() {
         default:
           setAuthStatus([false, res.status]);
 
-          clearInterval(updateInterval.current);
-          updateInterval.current = null;
-          
           break;
       }
     });
   }
 
-  function updateCountdown(args: any) {
+  function updateCountdown(args) {
     const seconds = new Date().getSeconds();
 
     setRefreshIn(30 - seconds % 30);
