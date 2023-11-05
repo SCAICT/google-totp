@@ -65,8 +65,6 @@ export default function Page() {
   }
 
   function TotpCode() {
-    setTotpCode(authenticator.generate(totpSecret));
-
     return <div className="flex flex-col items-center justify-between">
       <div className="flex flex-row items-center justify-between">
         {totpCode.split("").map((code, index) => {
