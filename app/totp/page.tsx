@@ -1,22 +1,33 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { authenticator } from 'otplib';
 
 export default function Page() {
   const [authStatus, setAuthStatus] = useState<[boolean | null, Number]>([null, 0]);
-
-  const [totpSecret, setTotpSecret] = useState<string>("");
   const [totpCode, setTotpCode] = useState<string>("");
-
   const [refreshIn, setRefreshIn] = useState<Number>(0);
 
   const router = useRouter();
 
   useEffect(() => {
-    let userData = new Map();
-    let params = window.location.hash.substring(1).split("&");
+    const userToken = parseUserToken();
+
+    updateCode(userToken);
+    updateCountdown(userToken);
+
+    setInterval(
+      updateCountdown,
+      1000,
+      { userToken: userToken }
+    );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function parseUserToken(): string {
+    const userData = new Map();
+    const params = window.location.hash.substring(1).split("&");
 
     params.forEach(
       (i) => {
@@ -24,13 +35,17 @@ export default function Page() {
         userData.set(k, v);
       }
     );
+    
+    return userData.get("access_token");
+  }
 
+  function updateCode(userToken: string) {
     fetch(
       "/api/auth",
       {
         method: "POST",
         headers: {
-          "Authorization": userData.get("access_token") ?? ""
+          "Authorization": userToken
         }
       }
     ).then((res) => {
@@ -44,12 +59,7 @@ export default function Page() {
 
           res.json().then(
             (data) => {
-              setTotpSecret(data.secret);
-              setTotpCode(authenticator.generate(totpSecret));
-
-              updateCountdown();
-
-              setInterval(updateCountdown, 1000);
+              setTotpCode(data.code);
             }
           );
 
@@ -58,17 +68,15 @@ export default function Page() {
           setAuthStatus([false, res.status]);
       }
     });
+  }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  function updateCountdown() {
-    let seconds = new Date().getSeconds();
+  function updateCountdown(args: any) {
+    const seconds = new Date().getSeconds();
 
     setRefreshIn(30 - seconds % 30);
 
     if (seconds === 0 || seconds === 30) {
-      setTotpCode(authenticator.generate(totpSecret));
+      updateCode(args.userToken);
     }
   }
 
@@ -87,7 +95,7 @@ export default function Page() {
       <div className="pb-12 pt-1 font-mono lg:text-lg md:text-lg text-sm">
         Refresh in {refreshIn.toString()} seconds
       </div>
-      
+
       <button onClick={() => navigator.clipboard.writeText(totpCode)} className="text-gray-950 text-center font-mono font-semibold lg:text-lg md:text-md text-md rounded-lg border-gray-950/75 border-2 lg:px-4 md:px-4 px-3 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:text-white ease-in-out duration-300 transition-all">
         Copy to Clipboard
       </button>
