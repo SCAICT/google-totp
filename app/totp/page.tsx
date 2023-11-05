@@ -11,7 +11,6 @@ function useInterval(callback: any, delay: any) {
     savedCallback.current = callback;
   }, [callback]);
 
-  // Set up the interval.
   useEffect(() => {
     function tick() {
       // @ts-ignore: Unreachable code error
@@ -53,13 +52,11 @@ export default function Page() {
   );
 
   useInterval(
-    () => {
-      updateCountdown(userToken);
-    },
+    updateCountdown,
     runInterval ? 1000 : null
   );
 
-  function updateCode(userToken: string) {
+  function updateCode() {
     fetch(
       "/api/auth",
       {
@@ -96,13 +93,13 @@ export default function Page() {
     });
   }
 
-  function updateCountdown(args: any) {
+  function updateCountdown() {
     const seconds = new Date().getSeconds();
 
     setRefreshIn(30 - seconds % 30);
 
     if (seconds === 0 || seconds === 30 || totpCode.length !== 6) {
-      updateCode(args.userToken);
+      updateCode();
     }
   }
 
