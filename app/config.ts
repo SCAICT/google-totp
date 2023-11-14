@@ -8,5 +8,7 @@ export const Config = {
 
 export const AllowedEmails = [
   "leolee50910@gmail.com",
-  "elvismao.070512@gmail.com"
+  "elvismao.070512@gmail.com",
+  "lzspriv@gmail.com", // https://github.com/SCAICT/google-totp/issues/1
+  "abel960717@gmail.com", // https://github.com/SCAICT/google-totp/issues/2
 ];
