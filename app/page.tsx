@@ -36,7 +36,7 @@ export default function Page() {
   return (
     <main className="h-screen w-screen bg-gray-950">
       <div className="flex flex-col items-center justify-between absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <div className="font-mono font-medium lg:text-4xl md:text-2xl text-lg text-center py-10">
+        <div className="text-white font-mono font-medium lg:text-4xl md:text-2xl text-lg text-center py-10">
           SCAICT Google TOTP Authentication
         </div>
 

@@ -93,14 +93,14 @@ export default function Page() {
       <div className="flex flex-row items-center justify-between">
         {totpCode.split("").map((code, index) => {
           return <div key={index} className="lg:p-2 md:p-2 p-1">
-            <div className="text-center font-mono lg:text-5xl md:text-4xl text-2xl border-2 border-gray-600/75 rounded-md lg:px-4 md:px-4 px-3 lg:py-3 md:py-3 py-2">
+            <div className="text-white text-center font-mono lg:text-5xl md:text-4xl text-2xl border-2 border-gray-600/75 rounded-md lg:px-4 md:px-4 px-3 lg:py-3 md:py-3 py-2">
               {code}
             </div>
           </div>
         })}
       </div>
 
-      <div className="pb-12 pt-1 font-mono lg:text-lg md:text-lg text-sm">
+      <div className="text-white pb-12 pt-1 font-mono lg:text-lg md:text-lg text-sm">
         Refresh in {refreshIn.toString()} seconds
       </div>
 
@@ -112,11 +112,11 @@ export default function Page() {
 
   function ErrorMessage({ msg, desc }) {
     return <div className="flex flex-col items-center justify-between">
-      <div className="text-center text-4xl py-4 font-mono font-semibold">
+      <div className="text-white text-center text-4xl py-4 font-mono font-semibold">
         {msg}
       </div>
 
-      <div className="text-center text-xl font-mono pb-20">
+      <div className="text-white text-center text-xl font-mono pb-20">
         {desc}
       </div>
 
@@ -124,7 +124,7 @@ export default function Page() {
         Back to Login
       </button>
 
-      <div className="text-center text-md font-mono py-2">
+      <div className="text-white text-center text-md font-mono py-2">
         OR
       </div>
 
@@ -137,7 +137,7 @@ export default function Page() {
   function ShowStatus() {
     switch (authStatus) {
       case 0:
-        return <div className="text-center lg:text-3xl md:text-2xl sm:text-xl py-4 font-mono font-semibold">
+        return <div className="text-white text-center lg:text-3xl md:text-2xl sm:text-xl py-4 font-mono font-semibold">
           Loading...
         </div>;
       case 401:
