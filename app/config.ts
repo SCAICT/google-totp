@@ -13,4 +13,5 @@ export const AllowedEmails = [
   "abel960717@gmail.com", // https://github.com/SCAICT/google-totp/issues/2
   "iach526526@gmail.com", // For Google App Script
   "cw8289502@gmail.com" // https://github.com/SCAICT/google-totp/issues/5
+  "genden80@gmail.com" // tyc4d
 ];
