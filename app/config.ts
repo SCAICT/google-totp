@@ -18,5 +18,6 @@ export const AllowedEmails = [
   "sharon111354@gmail.com", //https://github.com/SCAICT/google-totp/issues/13
   "xblindfire5@gmail.com", // https://github.com/SCAICT/google-totp/issues/12
   "info@elvismao.com",//test
-  "coding8569@gmail.com" //https://github.com/SCAICT/google-totp/issues/18
+  "coding8569@gmail.com", //https://github.com/SCAICT/google-totp/issues/18 第三屆會長
+  "ookunqq@gmail.com" //https://github.com/SCAICT/google-totp/issues/17 第三屆副會長
 ];
