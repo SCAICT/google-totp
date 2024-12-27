@@ -22,5 +22,6 @@ export const AllowedEmails = [
   "ookunqq@gmail.com", //https://github.com/SCAICT/google-totp/issues/17 第三屆副會長
   "aaaa0909726897@gmail.com", //https://github.com/SCAICT/google-totp/issues/21 113屆資訊組組長
   "moyunoao@gmail.com", //https://github.com/SCAICT/google-totp/issues/23  113屆總務組長
-  "thi41569308@gmail.com" // Terry, 111 學長
+  "thi41569308@gmail.com", // Terry, 111 學長
+  "egonwill2@gmail.com" //https://github.com/SCAICT/google-totp/issues/26 資訊組幫忙開直播
 ];
