@@ -26,5 +26,6 @@ export const AllowedEmails = [
   "egonwill2@gmail.com", //https://github.com/SCAICT/google-totp/issues/26 資訊組幫忙開直播
   "ericlsii2013@gmail.com", //https://github.com/SCAICT/google-totp/issues/29 資訊組組員處理網頁需求
   "catherine.wang.ca@gmail.com", //https://github.com/SCAICT/google-totp/issues/31 公關組寄送課程證書
-  "andy@verytop.tw" //https://github.com/SCAICT/google-totp/issues/33 第三屆副會長
+  "andy@verytop.tw", //https://github.com/SCAICT/google-totp/issues/33 第三屆副會長
+  "kuoray333@gmail.com" //第五屆資訊組組長
 ];
