@@ -28,5 +28,6 @@ export const AllowedEmails = [
   "catherine.wang.ca@gmail.com", //https://github.com/SCAICT/google-totp/issues/31 公關組寄送課程證書
   "andy@verytop.tw", //https://github.com/SCAICT/google-totp/issues/33 第三屆副會長
   "kuoray333@gmail.com", //第五屆資訊組組長
-  "jason11010125@gmail.com"//第五屆行政組組長
+  "jason11010125@gmail.com", //第五屆行政組組長
+  "capqq82@gmail.com" //第五屆行政組組長(26年2月起)
 ];
