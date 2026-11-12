@@ -31,4 +31,5 @@ export const AllowedEmails = [
   "capqq82@gmail.com", //第五屆行政組
   "nn198226@gmail.com", //第五屆副會長
   "zengcode0315@gmail.com" //第五屆資訊組長
+  "steventeng2022@gmail.com" //27寒訓
 ];
